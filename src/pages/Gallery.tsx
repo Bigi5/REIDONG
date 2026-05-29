@@ -2,7 +2,7 @@ import { type ReactNode, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
-import { SEO } from "@/components/seo/SEO";
+import { Seo } from "@/components/seo/SEO";
 import { PAGES_SEO } from "@/constants/seo";
 
 const sections = [
@@ -74,7 +74,7 @@ export function Gallery() {
 
   return (
     <main className="bg-[#fbfaf4] pb-20 pt-32 text-slate-950">
-      <SEO {...PAGES_SEO.gallery} />
+      <Seo {...PAGES_SEO.gallery} />
       <section className="px-4 md:px-8">
         <div className="container-xl">
           <Reveal>

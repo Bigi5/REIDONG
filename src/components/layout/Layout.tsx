@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import { Navbar } from "./Navbar";
 import { Footer } from "./Footer";
+import { FloatingWhatsApp } from "@/components/ui/FloatingWhatsApp";
 
 export function Layout() {
   const location = useLocation();
@@ -29,6 +30,7 @@ export function Layout() {
         <Outlet />
       </main>
       <Footer />
+      <FloatingWhatsApp />
     </div>
   );
 }

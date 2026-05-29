@@ -47,22 +47,22 @@ export function MissionsSection() {
           >
             <p className="text-emerald-500 text-sm font-semibold tracking-[0.28em] uppercase mb-4">Notre approche</p>
             <h2 className="font-display text-4xl md:text-5xl font-semibold text-slate-950 leading-tight mb-6">
-              Objectifs clairs,<br />une action documentée.
+              Objectifs opérationnels,<br />méthodologie de terrain.
             </h2>
             <p className="text-slate-600 text-lg leading-8 mb-8">
-              REID ONG s'appuie sur une méthodologie participative fondée sur le contact de proximité, les entretiens individuels et les discussions de groupe.
+              REID ONG porte des actions concrètes en s’appuyant sur une méthodologie de proximité, le travail partenarial et la mobilisation des communautés locales.
             </p>
             <div className="space-y-6 text-slate-600">
               <div>
-                <p className="font-semibold text-slate-950 mb-2">Domaines ciblés</p>
+                <p className="font-semibold text-slate-950 mb-2">Objectifs stratégiques</p>
                 <p className="leading-relaxed">
-                  Éducation, santé, recherche, environnement, développement, initiatives, loisirs et microfinance.
+                  Apporter un appui moral, matériel et financier aux populations vulnérables ; soutenir l’éducation ; lutter contre le VIH/SIDA, le paludisme et la corruption.
                 </p>
               </div>
               <div>
-                <p className="font-semibold text-slate-950 mb-2">Sites d'intervention</p>
+                <p className="font-semibold text-slate-950 mb-2">Méthodologie</p>
                 <p className="leading-relaxed">
-                  Interventions nationales au Bénin, notamment dans les départements de l’Atlantique, du Littoral, de l’Ouémé, des Plateaux, du Zou, des Collines, du Mono et du Couffo.
+                  Mobilisation de partenaires locaux, projections de films éducatifs, ateliers de sensibilisation et présence directe sur le terrain.
                 </p>
               </div>
             </div>

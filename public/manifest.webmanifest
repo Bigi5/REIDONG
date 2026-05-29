@@ -1,0 +1,16 @@
+{
+  "name": "REID ONG",
+  "short_name": "REID ONG",
+  "description": "ONG engagée pour l’éducation, la santé et le développement communautaire au Bénin.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#047857",
+  "theme_color": "#047857",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

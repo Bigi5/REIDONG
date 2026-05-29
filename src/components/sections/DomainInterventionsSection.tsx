@@ -2,12 +2,14 @@ import { motion } from "framer-motion";
 import { BookOpen, Heart, Leaf, Globe, Sparkles, Users, ShieldCheck } from "lucide-react";
 
 const DOMAIN_CARDS = [
-  { icon: BookOpen, label: "Éducation", description: "Renforcement de l’accès à l’école et sensibilisation des jeunes." },
-  { icon: Heart, label: "Santé", description: "Lutte contre le VIH/SIDA, le paludisme et l’accompagnement des personnes vulnérables." },
-  { icon: Leaf, label: "Environnement", description: "Promotion d’un environnement sain et durable, et protection des écosystèmes." },
-  { icon: Users, label: "Développement", description: "Appui aux collectivités et initiatives locales pour un rayonnement durable." },
-  { icon: ShieldCheck, label: "Gouvernance", description: "Proposition de projets de développement et de gouvernance éthique." },
-  { icon: Sparkles, label: "Microfinance", description: "Accompagnement des initiatives économiques locales et des micro-entrepreneurs." },
+  { icon: BookOpen, label: "Éducation", description: "Renforcement de l’accès à l’école, accompagnement des jeunes et soutien aux enfants de la rue." },
+  { icon: Heart, label: "Santé", description: "Lutte contre le VIH/SIDA, le paludisme et accompagnement sanitaire des populations vulnérables." },
+  { icon: BookOpen, label: "Recherche", description: "Études de terrain, collecte de données et actions basées sur des preuves locales." },
+  { icon: Leaf, label: "Environnement", description: "Protection des écosystèmes, propreté des quartiers et éducation au développement durable." },
+  { icon: Globe, label: "Développement", description: "Accompagnement des collectivités locales pour une croissance inclusive et durable." },
+  { icon: Users, label: "Initiatives", description: "Soutien aux projets communautaires, aux actions de terrain et aux réseaux associatifs." },
+  { icon: Sparkles, label: "Loisirs", description: "Activités socio-culturelles et éducatives pour les jeunes et les familles." },
+  { icon: ShieldCheck, label: "Microfinance", description: "Appui aux initiatives économiques locales et accompagnement des micro-entrepreneurs." },
 ];
 
 const ZONES = [
@@ -35,7 +37,7 @@ export function DomainInterventionsSection() {
           </p>
         </div>
 
-        <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3 mb-12">
+        <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4 mb-12">
           {DOMAIN_CARDS.map((item, index) => (
             <motion.article
               key={item.label}

@@ -6,6 +6,7 @@ type SEOProps = {
   description: string;
   path?: string;
   image?: string;
+  keywords?: string;
 };
 
 function setMeta(selector: string, attr: "content" | "href", value: string) {
@@ -25,21 +26,29 @@ function ensureCanonical(href: string) {
   link.href = href;
 }
 
-export function SEO({ title, description, path = "/", image = SEO_CONFIG.defaultImage }: SEOProps) {
+export function Seo({ title, description, path = "/", image = SEO_CONFIG.defaultImage, keywords }: SEOProps) {
   useEffect(() => {
     const canonical = `${SEO_CONFIG.siteUrl}${path}`;
+    const resolvedKeywords = keywords ?? "";
 
     document.title = title;
     setMeta('meta[name="description"]', "content", description);
+    setMeta('meta[property="og:type"]', "content", "website");
+    setMeta('meta[property="og:site_name"]', "content", SEO_CONFIG.siteName);
     setMeta('meta[property="og:title"]', "content", title);
     setMeta('meta[property="og:description"]', "content", description);
     setMeta('meta[property="og:url"]', "content", canonical);
     setMeta('meta[property="og:image"]', "content", image);
+    setMeta('meta[name="twitter:card"]', "content", "summary_large_image");
     setMeta('meta[name="twitter:title"]', "content", title);
     setMeta('meta[name="twitter:description"]', "content", description);
     setMeta('meta[name="twitter:image"]', "content", image);
+    setMeta('meta[name="theme-color"]', "content", SEO_CONFIG.themeColor);
+    if (resolvedKeywords) {
+      setMeta('meta[name="keywords"]', "content", resolvedKeywords);
+    }
     ensureCanonical(canonical);
-  }, [description, image, path, title]);
+  }, [description, image, path, title, keywords]);
 
   return null;
 }

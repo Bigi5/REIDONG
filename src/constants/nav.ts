@@ -10,11 +10,14 @@ export const NAV_LINKS = [
 
 export const ORG_INFO = {
   name: "REID ONG",
+  type: "Organisation Non Gouvernementale",
+  country: "Bénin",
   tagline: "Recherche – Éducation – Initiatives et Développement",
-  email: "contact@reid-ong.example",
-  phone: "+229 97 42 18 60",
-  phoneAlt: "+229 62 15 73 44",
-  address: "Quartier Haie Vive, Cotonou, Bénin",
+  email: "reidong03@yahoo.fr",
+  phone: "01 95 85 22 34",
+  phoneAlt: "01 44 91 70 34",
+  address: "07 BP 340, Cotonou, Bénin",
+  president: "GABIN MAGLOIRE HOUNDJE",
   socials: {
     facebook: "",
     twitter: "",

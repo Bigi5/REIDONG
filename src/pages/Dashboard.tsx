@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
   AreaChart, Area, BarChart, Bar, PieChart, Pie, Cell,
-  XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend
+  XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
 } from "recharts";
-import { Users, TrendingUp, Heart, Eye, Globe, ArrowUp, ArrowDown, Activity } from "lucide-react";
+import { Users, TrendingUp, Heart, Eye, ArrowUp, ArrowDown, Activity } from "lucide-react";
 import { DASHBOARD_MOCK, DOMAIN_STATS, ANNUAL_STATS } from "@/data/stats";
 import { formatCurrency, cn } from "@/lib/utils";
 
@@ -51,15 +51,16 @@ const CHART_COLORS = {
   text:      "#64748b",
 };
 
-const CustomTooltip = ({ active, payload, label }: any) => {
+type TooltipEntry = { name?: string; value?: number | string; color?: string };
+const CustomTooltip = ({ active, payload, label }: { active?: boolean; payload?: TooltipEntry[]; label?: string | number }) => {
   if (active && payload?.length) {
     return (
       <div className="bg-slate-900 border border-white/10 rounded-xl p-3 shadow-2xl">
         <p className="text-slate-400 text-xs mb-2">{label}</p>
-        {payload.map((entry: any) => (
-          <p key={entry.name} className="text-sm font-medium" style={{ color: entry.color }}>
+        {payload.map((entry, i) => (
+          <p key={entry.name ?? i} className="text-sm font-medium" style={{ color: entry.color }}>
             {entry.name}: {typeof entry.value === "number" && entry.value > 1000
-              ? entry.value.toLocaleString("fr-FR") : entry.value}
+              ? (entry.value as number).toLocaleString("fr-FR") : entry.value}
           </p>
         ))}
       </div>

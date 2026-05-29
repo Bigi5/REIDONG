@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://reid-ong.org/sitemap.xml
+Sitemap: https://reidongbenin.org/sitemap.xml

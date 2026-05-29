@@ -1,19 +1,20 @@
 import { useState } from "react";
 import { type ReactNode } from "react";
 import { motion } from "framer-motion";
-import { CheckCircle2, Mail, MapPin, Phone, Send } from "lucide-react";
-import { SEO } from "@/components/seo/SEO";
+import { CheckCircle2, Mail, MapPin, Phone, Send, UserRound } from "lucide-react";
+import { Seo } from "@/components/seo/SEO";
 import { ORG_INFO } from "@/constants/nav";
 import { PAGES_SEO } from "@/constants/seo";
 
 const contactCards = [
+  { icon: UserRound, label: "Président", value: ORG_INFO.president },
   { icon: Phone, label: "Téléphone", value: ORG_INFO.phone },
   { icon: Phone, label: "Téléphone secondaire", value: ORG_INFO.phoneAlt },
   { icon: Mail, label: "Email", value: ORG_INFO.email },
   { icon: MapPin, label: "Localisation", value: ORG_INFO.address },
 ];
 
-function Reveal({ children, className = "" }: { children: ReactNode; className?: string }) {
+function Reveal({ children, className = "" }: Readonly<{ children: ReactNode; className?: string }>) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 36 }}
@@ -29,27 +30,43 @@ function Reveal({ children, className = "" }: { children: ReactNode; className?:
 
 export function Contact() {
   const [sent, setSent] = useState(false);
+  const [errors, setErrors] = useState<string[]>([]);
+
+  function sanitize(input?: string) {
+    if (!input) return "";
+    // Remove HTML tags, collapse whitespace and trim
+    return input.replace(/<[^>]*>/g, "").replace(/\s+/g, " ").trim();
+  }
+
+  function validEmail(email: string) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  }
+
+  function validPhone(phone: string) {
+    const digits = phone.replace(/\D/g, "");
+    return digits.length >= 8 && digits.length <= 15;
+  }
 
   return (
-    <main className="bg-[#fbfaf4] pb-20 pt-32">
-      <SEO {...PAGES_SEO.contact} />
+    <main className="bg-[#F5F7FA] pb-20 pt-32">
+      <Seo {...PAGES_SEO.contact} />
       <section className="px-4 md:px-8">
         <div className="container-xl">
           <Reveal>
             <div className="relative overflow-hidden rounded-[2.25rem] bg-slate-950 px-6 py-20 text-white md:px-12">
               <img
-                src="https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?auto=format&fit=crop&w=1600&q=85"
-                alt="Équipe africaine en réunion"
+                src="https://images.unsplash.com/photo-1516908205727-40afad9449b7?auto=format&fit=crop&w=1600&q=80"
+                alt="Réunion communautaire de sensibilisation au Bénin"
                 loading="eager"
                 decoding="async"
-                className="absolute inset-0 h-full w-full object-cover opacity-35"
+                className="absolute inset-0 h-full w-full object-cover opacity-40"
               />
               <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/80 to-slate-950/30" />
               <div className="relative max-w-3xl">
                 <p className="mb-4 text-sm font-bold uppercase tracking-[0.24em] text-emerald-300">Contact</p>
                 <h1 className="font-display text-5xl font-semibold leading-tight md:text-7xl">Échanger avec REID ONG</h1>
                 <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-100">
-                  Formulaire et coordonnées factices pour préparer la version finale du site.
+                  Retrouvez les coordonnées officielles de REID ONG et contactez directement l'organisation.
                 </p>
               </div>
             </div>
@@ -64,21 +81,69 @@ export function Contact() {
               {sent ? (
                 <div className="flex min-h-[520px] flex-col items-center justify-center text-center">
                   <CheckCircle2 className="mb-6 h-16 w-16 text-emerald-600" />
-                  <h2 className="mb-4 text-3xl font-semibold text-slate-950">Message envoyé</h2>
-                  <p className="max-w-md text-slate-600">Merci. Ceci est une confirmation factice pour la démonstration du formulaire.</p>
-                  <button
-                    type="button"
-                    onClick={() => setSent(false)}
-                    className="mt-8 rounded-full bg-emerald-600 px-6 py-3 text-sm font-bold text-white transition hover:bg-emerald-500"
-                  >
-                    Envoyer un autre message
-                  </button>
+                  <h2 className="mb-4 text-3xl font-semibold text-slate-950">Message prêt</h2>
+                  <p className="max-w-md text-slate-600">Merci. Vous allez être redirigé vers WhatsApp pour finaliser l’envoi.</p>
+                  <div className="mt-6 flex gap-3">
+                    <a href="https://wa.me/22995852234" target="_blank" rel="noreferrer" className="rounded-full bg-emerald-600 px-6 py-3 text-sm font-bold text-white transition hover:bg-emerald-500">Ouvrir WhatsApp</a>
+                    <button
+                      type="button"
+                      onClick={() => setSent(false)}
+                      className="rounded-full border border-slate-200 bg-white px-6 py-3 text-sm font-bold text-slate-900 transition hover:bg-slate-50"
+                    >
+                      Envoyer un autre message
+                    </button>
+                  </div>
                 </div>
               ) : (
+                <>
+                  {errors.length > 0 && (
+                    <div className="rounded-md border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+                      <ul className="list-disc pl-5">
+                        {errors.map((err) => (
+                          <li key={err}>{err}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
                 <form
                   className="grid gap-5"
                   onSubmit={(event) => {
                     event.preventDefault();
+                    setErrors([]);
+                    
+
+                    const form = event.currentTarget as HTMLFormElement;
+                    const data = new FormData(form);
+                    const rawName = String(data.get("name") ?? "");
+                    const rawPhone = String(data.get("phone") ?? "");
+                    const rawEmail = String(data.get("email") ?? "");
+                    const rawSubject = String(data.get("subject") ?? "");
+                    const rawMessage = String(data.get("message") ?? "");
+
+                    const name = sanitize(rawName);
+                    const phone = sanitize(rawPhone);
+                    const email = sanitize(rawEmail);
+                    const subject = sanitize(rawSubject);
+                    const message = sanitize(rawMessage);
+
+                    const nextErrors: string[] = [];
+                    if (!name) nextErrors.push("Le nom est requis.");
+                    if (!phone || !validPhone(phone)) nextErrors.push("Téléphone invalide (8 à 15 chiffres).");
+                    if (!email || !validEmail(email)) nextErrors.push("Email invalide.");
+                    if (!subject) nextErrors.push("Veuillez choisir un sujet.");
+                    if (!message || message.length < 5) nextErrors.push("Le message est trop court.");
+
+                    if (nextErrors.length > 0) {
+                      setErrors(nextErrors);
+                      return;
+                    }
+
+                    // Prepare WhatsApp destination (REID ONG Benin)
+                    const dest = "22995852234";
+                    const text = `Nom: ${name}\nTéléphone: ${phone}\nEmail: ${email}\nSujet: ${subject}\n\n${message}`;
+                    const waUrl = `https://wa.me/${dest}?text=${encodeURIComponent(text)}`;
+                    window.open(waUrl, "_blank");
+
                     setSent(true);
                   }}
                 >
@@ -116,6 +181,7 @@ export function Contact() {
                     <Send className="h-4 w-4" />
                   </button>
                 </form>
+                </>
               )}
             </div>
           </Reveal>

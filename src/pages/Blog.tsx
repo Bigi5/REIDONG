@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
-import { Clock, ArrowRight, Tag } from "lucide-react";
+import { Clock, ArrowRight } from "lucide-react";
 import { BLOG_POSTS } from "@/data/blog";
 import { DOMAIN_COLORS, DOMAIN_LABELS, cn } from "@/lib/utils";
 

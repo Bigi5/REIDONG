@@ -1,5 +1,5 @@
 import { FileText } from "lucide-react";
-import { SEO } from "@/components/seo/SEO";
+import { Seo } from "@/components/seo/SEO";
 import { PAGES_SEO } from "@/constants/seo";
 
 const documents = [
@@ -11,7 +11,7 @@ const documents = [
 export function Legal() {
   return (
     <main className="bg-[#fbfaf4] px-4 pb-20 pt-32 md:px-8">
-      <SEO {...PAGES_SEO.legal} />
+      <Seo {...PAGES_SEO.legal} />
       <section className="container-xl">
         <div className="max-w-4xl">
           <p className="mb-4 text-sm font-bold uppercase tracking-[0.22em] text-emerald-700">Documents</p>

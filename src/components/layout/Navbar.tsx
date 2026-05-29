@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Globe2, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
-import { NAV_LINKS, ORG_INFO } from "@/constants/nav";
+import { NAV_LINKS } from "@/constants/nav";
 import { cn } from "@/lib/utils";
 
 export function Navbar() {
@@ -17,7 +17,8 @@ export function Navbar() {
   }, []);
 
   useEffect(() => {
-    setIsOpen(false);
+    const t = setTimeout(() => setIsOpen(false), 0);
+    return () => clearTimeout(t);
   }, [location]);
 
   const isActiveLink = (path: string) => {
@@ -31,27 +32,32 @@ export function Navbar() {
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.45, ease: "easeOut" }}
       className={cn(
-        "fixed left-0 right-0 top-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur-xl transition-shadow",
-        scrolled && "shadow-sm"
+        "fixed left-0 right-0 top-0 z-50 border-b border-slate-200/70 bg-white/85 backdrop-blur-xl transition-all duration-300",
+        scrolled && "bg-white/95 shadow-card-premium backdrop-blur-2xl"
       )}
     >
       <div className="mx-auto max-w-7xl px-4 md:px-8">
-        <div className="flex h-20 items-center justify-between gap-4">
-          <Link to="/" className="flex shrink-0 items-center gap-3 whitespace-nowrap">
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-emerald-600 text-white">
-              <Globe2 className="h-5 w-5" />
-            </div>
-            <span className="font-display text-2xl font-semibold tracking-tight text-slate-950">{ORG_INFO.name}</span>
+        <div className="flex h-36 items-center justify-between gap-4">
+          {/* LOGO - Très grand, sans encadrement */}
+          <Link to="/" className="flex items-center transition hover:opacity-80">
+            <img 
+              src="/images/Logo.png" 
+              alt="Logo REID ONG" 
+              className="h-28 w-auto object-contain" 
+            />
           </Link>
 
-          <nav className="hidden min-w-0 flex-1 items-center justify-center gap-1 lg:flex">
+          {/* NAVIGATION DESKTOP */}
+          <nav className="hidden flex-1 items-center justify-center gap-1 lg:flex">
             {NAV_LINKS.map((link) => (
               <Link
                 key={link.path}
                 to={link.path}
                 className={cn(
-                  "whitespace-nowrap rounded-full px-3 py-2 text-sm font-bold text-slate-700 transition xl:px-4",
-                  isActiveLink(link.path) ? "bg-emerald-50 text-emerald-800" : "hover:bg-slate-100 hover:text-slate-950"
+                  "whitespace-nowrap rounded-full px-5 py-3 text-base font-semibold transition duration-200",
+                  isActiveLink(link.path)
+                    ? "bg-emerald-100 text-emerald-800 shadow-sm"
+                    : "text-slate-700 hover:bg-slate-100 hover:text-slate-950"
                 )}
               >
                 {link.label}
@@ -59,23 +65,28 @@ export function Navbar() {
             ))}
           </nav>
 
-          <Link
-            to="/contact"
-            className="hidden shrink-0 whitespace-nowrap rounded-full bg-emerald-500 px-5 py-3 text-sm font-bold text-slate-950 transition hover:bg-emerald-300 lg:inline-flex"
-          >
-            Faire un don
-          </Link>
+          {/* BOUTON CONTACT DESKTOP */}
+          <div className="flex items-center gap-3">
+            <Link
+              to="/contact"
+              className="hidden rounded-full bg-emerald-600 px-7 py-3 text-base font-semibold text-white transition hover:bg-emerald-500 hover:scale-105 lg:inline-flex"
+            >
+              Nous contacter
+            </Link>
 
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-900 transition hover:bg-slate-50 lg:hidden"
-            aria-label="Ouvrir le menu"
-          >
-            {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </button>
+            {/* BURGER MENU MOBILE */}
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-900 shadow-sm transition hover:bg-slate-50 lg:hidden"
+              aria-label="Ouvrir le menu"
+            >
+              {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </button>
+          </div>
         </div>
       </div>
 
+      {/* MENU MOBILE */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -84,14 +95,21 @@ export function Navbar() {
             exit={{ opacity: 0, height: 0 }}
             className="overflow-hidden border-t border-slate-200 bg-white lg:hidden"
           >
-            <nav className="grid gap-2 px-4 py-5">
+            <nav className="grid gap-2 px-4 py-6">
               {NAV_LINKS.map((link) => (
-                <Link key={link.path} to={link.path} className="rounded-2xl bg-slate-50 px-4 py-4 text-sm font-bold text-slate-800">
+                <Link
+                  key={link.path}
+                  to={link.path}
+                  className="rounded-2xl bg-slate-50 px-5 py-4 text-base font-semibold text-slate-800 transition hover:-translate-y-0.5 hover:bg-emerald-50 hover:text-emerald-700"
+                >
                   {link.label}
                 </Link>
               ))}
-              <Link to="/contact" className="rounded-2xl bg-emerald-500 px-4 py-4 text-center text-sm font-bold text-slate-950">
-                Faire un don
+              <Link
+                to="/contact"
+                className="mt-2 rounded-2xl bg-emerald-600 px-5 py-4 text-center text-base font-semibold text-white transition hover:bg-emerald-500"
+              >
+                Nous contacter
               </Link>
             </nav>
           </motion.div>
